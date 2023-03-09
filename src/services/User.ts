@@ -1,8 +1,7 @@
 
+
 import { User } from "@prisma/client"
 import bcrypt from "bcrypt"
-
-
 
 const isString=(el:any):boolean=>{
     return typeof el==="string"?true:false
@@ -27,18 +26,22 @@ const parsePassword=(param:any):string=>{
     if(!param)throw new Error("Enter a password")
     var validRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,20}$/;
     if (!param.match(validRegex)) throw new Error("The password must be between 6 to 20 characters which contain at least one numeric digit, one uppercase and one lowercase letter")
-    
-    
+
+        
     return param
    
 }
 
-export const parseNewUser=(param:any):User=>{
+export const parseNewUser=(param:any):Omit<User,"id" | "address"|"photo">=>{
     const newUser={
-        id:0,
-        address:"",
-        photo:"",
         name:parseName(param.name),
+        email:parseEmail(param.email),
+        password:parsePassword(param.password)
+    }
+    return newUser
+}
+export const parseLoginUser=(param:any):Pick<User,"email" | "password">=>{
+    const newUser={
         email:parseEmail(param.email),
         password:parsePassword(param.password)
     }
