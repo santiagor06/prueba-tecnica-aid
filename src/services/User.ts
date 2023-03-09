@@ -1,5 +1,3 @@
-
-
 import { User } from "@prisma/client"
 import bcrypt from "bcrypt"
 
@@ -13,11 +11,30 @@ const parseEmail=(param:any):string=>{
     return param
     
 }
+
 const parseName=(param:any):string=>{
     if(!param)throw new Error("Enter a name")
     if(isString(param))return param
     throw new Error("invalid name")
 }
+
+const parseAddress=(param:any):string=>{
+    if(!param)throw new Error("Enter a address")
+    if(isString(param))return param
+    throw new Error("invalid address")
+}
+
+const parsePhoto=(param:any):string=>{
+    if(!param)throw new Error("Enter a Url")
+    if(isString(param))return param
+    throw new Error("invalid Url")
+}
+const parseId=(param:any):string=>{
+    if(!param)throw new Error("Enter a Id")
+    if(isString(param))return param
+    throw new Error("invalid Id")
+}
+
 export const hashPassword=async(password:string)=>{
     const hashPassword=await bcrypt.hash(password,10)
     return hashPassword
@@ -44,6 +61,15 @@ export const parseLoginUser=(param:any):Pick<User,"email" | "password">=>{
     const newUser={
         email:parseEmail(param.email),
         password:parsePassword(param.password)
+    }
+    return newUser
+}
+
+export const parseModifyUser=(param:any):Pick<User,"photo" | "address"|"id">=>{
+    const newUser={
+        address:parseAddress(param.address),
+        photo:parsePhoto(param.photo),
+        id:parseId(param.id)
     }
     return newUser
 }

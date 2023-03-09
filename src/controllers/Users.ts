@@ -1,11 +1,9 @@
 
 import { User } from '@prisma/client'
 import { db } from '../utils/db.server'
-import { parseLoginUser, parseNewUser } from '../services/User';
+import { parseLoginUser, parseNewUser, parseModifyUser } from '../services/User';
 
-type Token={
-    token:string
-}
+
 
 
 export const createUser=async(user:any):Promise<Omit<User,"id" | "address"|"photo" | "password">>=>{
@@ -24,7 +22,7 @@ export const createUser=async(user:any):Promise<Omit<User,"id" | "address"|"phot
     return newUser
 
 }
-export const loginUser=async(user:any):Promise<Token>=>{
+export const loginUser=async(user:any):Promise<Pick<User,"id">>=>{
 
     const {email,password}=parseLoginUser(user)
     const loginUser=await db.user.findUnique({
@@ -33,6 +31,26 @@ export const loginUser=async(user:any):Promise<Token>=>{
         }
     })
     if(!loginUser)throw new Error("Unregistered user")
-    if(loginUser.password===password)return {token:"token"}
+    if(loginUser.password===password)return {id:loginUser.id}
         else throw new Error("password incorrect")
+}
+
+export const modifyUser=async(user:any):Promise<Pick<User,"photo"|"address">>=>{
+    const {id,photo,address}=parseModifyUser(user);
+    const updateUser=await db.user.update({
+        where:{
+            id
+        },
+        data:{
+            photo,
+            address,
+        },
+        select:{
+            photo:true,
+            address:true
+        }
+    })
+    return updateUser
+    
+
 }
