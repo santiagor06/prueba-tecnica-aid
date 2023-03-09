@@ -7,6 +7,7 @@ class Server {
     constructor() {
         this.application=express()
         this.port="3000"
+        this.config()
         this.routes()
         
     }
@@ -15,8 +16,12 @@ class Server {
         this.application.listen(this.port,showRun)
     } 
     private routes(){
-        this.application.use(express.json())
+       
         this.application.use("/users",userRoute)
-    }      
+    } 
+    private config(){
+        this.application.use(express.json())
+        
+    }           
 }
 export default Server
