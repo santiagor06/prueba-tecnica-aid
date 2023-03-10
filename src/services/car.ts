@@ -15,7 +15,7 @@ const parseProductId=(param:any):string=>{
   
   }
 
-const parseUserId=(param:any):string=>{
+ export const parseUserId=(param:any):string=>{
     if(!param)throw new Error("Enter a user ID")
   if(isString(param))return param
   throw new Error("invalid user ID")

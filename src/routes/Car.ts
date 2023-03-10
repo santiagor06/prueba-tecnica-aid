@@ -11,10 +11,10 @@ carRoute.post("/",async(req,res)=>{
         res.status(400).send({error:error.message})
     }
 })
-carRoute.put("/",async(_req,res)=>{
+carRoute.put("/",async(req,res)=>{
     try {
-      await checkCar()
-      res.status(200).send({message:"successful purchase"})
+      const ne=await checkCar(req.body)
+      res.status(200).send(ne)
     } catch (error:any) {
         res.status(400).send({error:error.message})
     }

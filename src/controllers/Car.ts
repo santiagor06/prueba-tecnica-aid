@@ -1,5 +1,5 @@
 import { Sell } from '@prisma/client';
-import { parseSell } from '../services/car';
+import { parseSell} from '../services/car';
 import { db } from '../utils/db.server';
 export const createSell=async(param:any):Promise<Sell>=>{
 
@@ -42,7 +42,28 @@ export const createSell=async(param:any):Promise<Sell>=>{
     return newSell
 }
 
-export const checkCar=async()=>{
- 
+export const checkCar=async(body:any)=>{
+    const {userId}=body
+    if(!userId)throw new Error ("enter userId")
+
+    const sell=db.sell.updateMany({
+        where:{
+            AND:[
+                {userId:{
+                    equals:userId
+                }},
+                {
+                 status:{
+                    equals:"pending"
+                 }   
+                }
+            ],   
+            },
+        data:{
+            status:"closed"
+        }
+    })
+
+ return sell
     
 }
