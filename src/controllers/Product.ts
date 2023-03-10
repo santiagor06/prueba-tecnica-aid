@@ -1,5 +1,5 @@
-import { Book, Product } from "@prisma/client";
-import { parseBook, parseProduct } from '../services/product';
+import { Book, Product, Store } from "@prisma/client";
+import { parseBook, parseProduct, parseModifyProduct } from '../services/product';
 import { db } from "../utils/db.server";
 
 export const createBook=async(book:any):Promise<Book>=>{
@@ -18,6 +18,7 @@ await db.store.create({
     data:{
         category:"book",
         name:newBook.title,
+        productId:newBook.id,
         
     }
 })
@@ -38,8 +39,29 @@ export const createProduct=async(book:any):Promise<Product>=>{
         data:{
             category:"other",
             name:newProduct.name,
+            productId:newProduct.id,
             
         }
     })
     return newProduct
     }
+
+export const modifyProduct=async(product:any):Promise<Store>=>{
+    const {productId,amount}=parseModifyProduct(product)
+
+    const newProduct=await db.store.update({
+        where:{
+            productId
+        },
+        data:{
+            amount
+        }
+    })
+return newProduct
+}    
+export const getProducts=async():Promise<Array<Store>>=>{
+
+    const products=await db.store.findMany({})
+    return products
+
+}

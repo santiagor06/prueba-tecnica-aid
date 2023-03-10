@@ -36,8 +36,9 @@ model Product {
 }
 
 model Store {
-  id       String @id @default(uuid())
-  name     String @unique
-  amount   Int    @default(1)
-  category String
+  id        String @id @default(uuid())
+  name      String @unique
+  amount    Int    @default(1)
+  category  String
+  productId String @unique
 }
