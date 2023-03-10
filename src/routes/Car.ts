@@ -1,5 +1,5 @@
 import express from 'express';
-import { createSell, checkCar } from '../controllers/Car';
+import { createSell, checkCar, getCar } from '../controllers/Car';
 
 const carRoute=express.Router()
 
@@ -18,6 +18,15 @@ carRoute.put("/",async(req,res)=>{
     } catch (error:any) {
         res.status(400).send({error:error.message})
     }
+})
+
+carRoute.get("/:id",async(req,res)=>{
+  try {
+    const car=await getCar(req.params.id)
+    res.status(200).send(car)
+  } catch (error:any) {
+      res.status(400).send({error:error.message})
+  }
 })
 
 export default carRoute

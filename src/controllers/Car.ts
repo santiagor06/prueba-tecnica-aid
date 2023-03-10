@@ -68,3 +68,24 @@ export const checkCar=async(body:any)=>{
     
 }
 
+export const getCar=(carId:string)=>{
+    
+    if(!carId)throw new Error ("enter carId")
+
+    const car=db.sell.findMany({
+        where:{
+            AND:[
+                {carId:{
+                    equals:carId
+                }},
+                {
+                 status:{
+                    equals:"pending"
+                 }   
+                }
+            ],   
+            }
+    })
+
+ return car
+}
