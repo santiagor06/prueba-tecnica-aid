@@ -49,6 +49,7 @@ model Sell {
   productId String
   amount    Int
   carId     String
+  userId    String
   status    String @default("pending")
   car       Car    @relation(fields: [carId], references: [id])
 }
