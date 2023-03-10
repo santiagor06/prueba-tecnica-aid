@@ -29,10 +29,10 @@ model Book {
 }
 
 model Product {
-  id     String @id @default(uuid())
-  name   String @unique
-  codigo Int
-  amount Int    @default(1)
+  id    String @id @default(uuid())
+  name  String @unique
+  code  String @unique
+  price Float
 }
 
 model Store {
