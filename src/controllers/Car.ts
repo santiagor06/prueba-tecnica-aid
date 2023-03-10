@@ -4,14 +4,31 @@ import { db } from '../utils/db.server';
 export const createSell=async(param:any):Promise<Sell>=>{
 
     const {userId,amount,productId}=parseSell(param);
-
+    const store=await db.store.findUnique({
+        where:{
+            productId
+        }
+    })
+    if(!store)throw new Error ("product not exist")
+    const resul=store?.amount-amount
+    if(resul<0)throw new Error(`insufficient amount of ${store.name}`)
     const car=await db.car.findUnique({
         where:{
             userId
         }
     })
+
+
     if(!car)throw new Error("car not exist")
     const carId=car.id
+    await db.store.update({
+        where:{
+            productId
+        },
+        data:{
+            amount:resul
+        }
+    })
     const newSell=await db.sell.create({
         data:{
             amount,
@@ -20,5 +37,12 @@ export const createSell=async(param:any):Promise<Sell>=>{
             userId
         }
     })
+
+
     return newSell
+}
+
+export const checkCar=async()=>{
+ 
+    
 }
