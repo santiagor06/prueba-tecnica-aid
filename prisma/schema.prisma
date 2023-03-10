@@ -18,3 +18,24 @@ model User {
   address  String?
   photo    String?
 }
+
+model Book {
+  id        String @id @default(uuid())
+  title     String @unique
+  author    String
+  editorial String
+  price     Float
+}
+
+model Product {
+  id     String @id @default(uuid())
+  name   String @unique
+  codigo Int
+  amount Int    @default(1)
+}
+
+model Store {
+  id     String @id @default(uuid())
+  name   String @unique
+  amount Int    @default(1)
+}
