@@ -12,7 +12,12 @@ export const createUser=async(user:any):Promise<Omit<User,"id" | "address"|"phot
         data:{
             name,
             password,
-            email
+            email,
+            Car:{
+                create:{
+                    
+                }
+            }
         },
         select:{
             email:true,

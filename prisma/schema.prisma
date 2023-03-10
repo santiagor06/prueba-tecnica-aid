@@ -15,6 +15,7 @@ model User {
   email    String  @unique
   password String
   name     String
+  Car      Car?
   address  String?
   photo    String?
 }
@@ -41,4 +42,20 @@ model Store {
   amount    Int    @default(1)
   category  String
   productId String @unique
+}
+
+model Sell {
+  id        String @id @default(uuid())
+  productId String
+  amount    Int
+  carId     String
+  status    String @default("pending")
+  car       Car    @relation(fields: [carId], references: [id])
+}
+
+model Car {
+  id      String @id @default(uuid())
+  user    User   @relation(fields: [userId], references: [id])
+  userId  String @unique
+  product Sell[]
 }
