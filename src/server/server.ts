@@ -1,4 +1,5 @@
 import express,{Application} from "express"
+import productRoute from "../routes/Product"
 import userRoute from "../routes/User"
 
 class Server {
@@ -18,6 +19,7 @@ class Server {
     private routes(){
        
         this.application.use("/users",userRoute)
+        this.application.use("/product",productRoute)
     } 
     private config(){
         this.application.use(express.json())

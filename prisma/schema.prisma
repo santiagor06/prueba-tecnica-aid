@@ -25,6 +25,7 @@ model Book {
   author    String
   editorial String
   price     Float
+  isbn      String @unique
 }
 
 model Product {
@@ -35,7 +36,8 @@ model Product {
 }
 
 model Store {
-  id     String @id @default(uuid())
-  name   String @unique
-  amount Int    @default(1)
+  id       String @id @default(uuid())
+  name     String @unique
+  amount   Int    @default(1)
+  category String
 }
